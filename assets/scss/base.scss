@@ -1,0 +1,47 @@
+@import "variables";
+@import "mixins";
+
+// Colors Class
+.green {
+  color: $green;
+}
+.dark-green {
+  color: $dark-green;
+}
+
+body{
+  background-color: $background-color
+}
+
+// Default Class
+
+label {
+  font-size: 0.875rem;
+}
+.card {
+  @include box-shadow(0px, 2px, 5px, 0px, rgba(0, 0, 0, 0.15));
+}
+
+.nav-tabs {
+  margin-bottom: 40px;
+
+  .nav-link {
+    border-bottom: 5px transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: rgb(164, 164, 164);
+
+    &.active {
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 5px solid green;
+      color: green;
+    }
+
+    &:focus {
+      border-image-width: 0;
+    }
+  }
+}
