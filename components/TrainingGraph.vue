@@ -70,15 +70,27 @@ export default {
       chartOptions: {}
     };
   },
-
   created() {
     this.fillData();
   },
 
   methods: {
+    receberGraficos(x,y,z) {
+          console.log('x:');
+          console.log(x);
+
+          console.log('y');
+          console.log(y);
+
+          console.log('z');
+          console.log(z);
+      },
     fillData() {
+      
+      // http://www.json-generator.com/api/json/get/cqBYnhjxnS?indent=2
+      // http://www.json-generator.com/api/json/get/cesoEzIUGG?indent=2
       axios
-        .get("http://www.json-generator.com/api/json/get/cesoEzIUGG?indent=2")
+        .get("http://www.json-generator.com/api/json/get/cqBYnhjxnS?indent=2")
         .then(response => {
           const responseData = response.data;
 
@@ -97,19 +109,6 @@ export default {
             ]
           };
 
-          // borderColor: config.colors.danger,
-          //     borderWidth: 2,
-          //     borderDash: [],
-          //     borderDashOffset: 0.0,
-          //     pointBackgroundColor: config.colors.danger,
-          //     pointBorderColor: 'rgba(255,255,255,0)',
-          //     pointHoverBackgroundColor: config.colors.danger,
-          //     pointBorderWidth: 20,
-          //     pointHoverRadius: 4,
-          //     pointHoverBorderWidth: 15,
-          //     pointRadius: 4,
-
-          // console.log(responseData[0].oil.map(item => item.value))
           this.chartOptions = {
             // responsive: true,
             // maintainAspectRatio: false,

@@ -19,6 +19,7 @@
           <div>
             <multiselect
               @tag="addTag"
+			  @select="selecionarPocoProdutor"
               v-model="wellSelectName"
               selectLabel="Pressione 'Enter' para selecionar"
               selectedLabel="Selecionado"
@@ -56,7 +57,7 @@
         <!-- b-card-header -->
         <b-collapse :id="card.name" role="tabpanel">
           <b-card-body>
-            <training></training>
+            <training v-on:popularGraficos="receberGraficos"></training>
             <!--training -->
             <hr class="my-4" />
             <poleo class="mt-4"></poleo>
@@ -87,6 +88,16 @@ export default {
     Poleo,
     Multiselect
   },
+  events: {
+    receberGraficos(x,y,z) {
+      console.log("x:");
+      console.log(x);
+      console.log("y:");
+      console.log(y);
+      console.log("z:");
+      console.log(z);
+    }
+  },
   data() {
     return {
       selectedFields: "",
@@ -95,14 +106,28 @@ export default {
       value: [],
       wellSelectName: [],
       options: [],
-      //api
-      wells_productors: {}
+	  wells_productors: {},
+	  pocosSelecionados:[]
     };
   },
   methods: {
     deleteCard(index) {
       this.wellSelectName.splice(index, 1);
-    },
+	},
+	selecionarPocoProdutor(data) {
+		const urlListarPocosProdutoresTodos = "http://localhost:8000/gerenciamento/ListarGraficos/";
+
+		var obj = { id: data.id, pocos:null };
+
+		var that = this;
+
+		api.listarPocosProdutores(urlListarPocosProdutoresTodos + data.id).then(r => {
+				obj["pocos"] = r.data;
+				that.pocosSelecionados.push(obj);				
+				console.log("Emitir o Evento popularGraficos");
+				that.$emit("popularGraficos",obj);
+		});
+	},
     addTag(newTag) {
       // return  name for listFiltered
       const tag = {
@@ -116,16 +141,16 @@ export default {
   mounted() {
     //  Fetch all primary data
     const allfields =
-      "http://www.json-generator.com/api/json/get/ceyAJrObFK?indent=2";
+      "http://www.json-generator.com/api/json/get/cjUVYnbvNe?indent=2";
     const prodwells_by_fields =
-      "http://www.json-generator.com/api/json/get/cgnWYHFTSa?indent=2";
+      "http://www.json-generator.com/api/json/get/ceKPoEkdCG?indent=2";
 
     api.getAllFields(allfields).then(r => {
       this.fields = r.data.fields;
     });
 
     api.prodwells_by_fields(prodwells_by_fields).then(r => {
-      this.wells_productors = r.data.wells_productors;
+      this.wells_productors = r.data;
     });
   },
   watch: {

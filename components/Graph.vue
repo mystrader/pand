@@ -9,7 +9,7 @@ import graphapi from "~/plugins/graphapi";
 export default {
   mixins: [mixins.reactiveProp],
   extends: Line,
-  props: ["chartData", "options"],
+  props: ["chartsData", "options"],
 
   async mounted() {
     // await this.renderChart(this.chartData, this.options);
