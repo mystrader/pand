@@ -1,26 +1,30 @@
 
 <script>
-import { Line, mixins } from "vue-chartjs";
+// import VueCharts from "vue-chartjs";
+import { Bar, Line, mixins } from "vue-chartjs";
 import axios from "axios";
-
+import main from "../plugins/main";
 import zoom from "chartjs-plugin-zoom";
 
 import graphapi from "~/plugins/graphapi";
-import ChartAnnotationsPlugin from "chartjs-plugin-annotation";
 
 export default {
   mixins: [mixins.reactiveProp],
-  extends: Line,
-  props: ["chartData", "options", "vertical"],
+  extends: Bar,
+  props: ["chartData", "options"],
 
   async mounted() {
+    // await this.renderChart(this.chartData, this.options);
+
     this.addPlugin(zoom);
+    //this.resetZoom(zoom);
 
     await this.$watch(
       "chartData",
       (newVal, oldVal) => {
         if (this.chartData)
           this.renderChart(newVal || this.chartData, this.options);
+        // if (!oldVal) { }
       },
       { immediate: true }
     );

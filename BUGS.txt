@@ -1,0 +1,20 @@
+/ Exploração
+
+- Ajustar datas gr�fico (fazer split, pois está mostrando muitas datas ao mesmo tempo)
+- Botão treinar está alternando p gráfico não treinado
+- Reset zoom só funciona para gráficos não treinados
+- Estilizar gráficos
+
+- Excluir poço selecionado na área de póleo
+- Exportar, precisa de 2 clicks para abrir download
+
+- Data no chrome cortando
+- intermitência ao gerar data e tempo no primeiro treinamento
+
+
+/ Gerenciamento
+
+- O gráfico deve estar com barras e linhas
+- Reordenar  pela ordem que vem da api.
+- Deixar o gráfico igual ao da versão antiga. com Bar e Line 
+- Gerar curvas e recalcular parâmetros

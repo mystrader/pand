@@ -1,14 +1,13 @@
 import axios from "axios";
 
-// 1. AllFields: http://www.json-generator.com/api/json/get/ceyAJrObFK?indent=2
-// 2. FilterProdWells,id_38: http://www.json-generator.com/api/json/get/cgieBdJrCa?indent=2
-// 3. FilterInjectWells:  http://www.json-generator.com/api/json/get/bVpwFsdeNu?indent=2
+// PROD URL
+export const BASE_URL = "http://localhost:8000";
 
-// const allfields =  "http://www.json-generator.com/api/json/get/ceyAJrObFK?indent=2";
-// const prodwells_by_fields =  "http://www.json-generator.com/api/json/get/ceyAJrObFK?indent=2";
-// const filter_injectwells =  "http://www.json-generator.com/api/json/get/ceyAJrObFK?indent=2";
+// DEV URL
+export const BASE_URL_DEV = "http://localhost:3000";
 
 export const api = {
+  // Gerenciamento
   getAllFields(allfields) {
     return axios.get(allfields);
   },
@@ -20,5 +19,16 @@ export const api = {
   },
   listarPocosProdutores(url) {
     return axios.get(url);
+  },
+  getWellInjectors(url) {
+    return axios.get(url);
+  },
+
+  // Exploracao
+  getPrimaryDataForm(url) {
+    return axios.get(url);
+  },
+  postPrimaryDataForm(url) {
+    return axios.post(url);
   }
 };

@@ -1,6 +1,24 @@
 @import "variables";
 @import "mixins";
 
+body {
+  background-color: $background-color;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 300;
+}
+
+h4 {
+  font-size: 2.1rem;
+  font-weight: 300;
+}
+
+a {
+  text-decoration: none;
+}
+
 // Colors Class
 .green {
   color: $green;
@@ -9,34 +27,38 @@
   color: $dark-green;
 }
 
-body{
-  background-color: $background-color
-}
-
 // Default Class
 
 label {
   font-size: 0.875rem;
 }
+
+.card-header {
+  font-weight: 600;
+  color: $green;
+  font-size: 1.2rem;
+  border-bottom: 3px solid #dcdcdc;
+}
+
 .card {
   @include box-shadow(0px, 2px, 5px, 0px, rgba(0, 0, 0, 0.15));
 }
 
 .nav-tabs {
   margin-bottom: 40px;
-
   .nav-link {
     border-bottom: 5px transparent;
     border-top: none;
     border-left: none;
     border-right: none;
     color: rgb(164, 164, 164);
+    padding-bottom: 15px;
 
     &.active {
       border-top: none;
       border-left: none;
       border-right: none;
-      border-bottom: 5px solid green;
+      border-bottom: 3px solid green;
       color: green;
     }
 
@@ -44,4 +66,46 @@ label {
       border-image-width: 0;
     }
   }
+}
+
+.multiselect__placeholder {
+  margin: 0;
+}
+
+.vue-notification {
+  padding: 15px 25px;
+  line-height: 1.6;
+  margin: 0 5px 5px;
+  font-size: 17px;
+  color: #ffffff;
+  background: #ccc;
+  border-left: 5px solid #333;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  font-weight: 600;
+  margin: 0 15px 15px 0px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  &.warn {
+    background: #ffb648;
+    border-left-color: #f48a06;
+  }
+
+  &.error {
+    background: #e54d42;
+    border-left-color: #b82e24;
+  }
+
+  &.success {
+    background: #036534;
+    border-left-color: #024e28;
+  }
+}
+.system-tips {
+  font-size: 16px;
+  color: #757575;
+  position: relative;
+  top: 4px;
 }

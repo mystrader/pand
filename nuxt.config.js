@@ -14,6 +14,7 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
+
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
@@ -38,7 +39,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    { src: "~/plugins/vue-notification.js", ssr: false },
+    { src: "~/plugins/main.js" }
+  ],
   /*
    ** Nuxt.js modules
    */
@@ -53,7 +57,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    //proxy: true
+  },
   /*
    ** Build configuration
    */
