@@ -106,7 +106,7 @@ export default {
       }
 
       &:first-child {
-        margin-top: 21px;
+        margin-top: 20px;
       }
     }
   }

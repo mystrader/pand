@@ -1,6 +1,7 @@
 <template>
   <div>
     <h4 class="mt-3 mb-4">Adição de Injetores</h4>
+
     <b-row>
       <b-col>
         <div class="head-injectors d-flex justify-content-between align-items-center mt-2 mb-4">
@@ -48,7 +49,10 @@ import Vue from "vue";
 import Graph from "~/components/Graph.vue";
 
 export default {
-  props: ["idField"],
+  props: {
+    idField: [Number, Array, String, Object],
+    wellInjectFile: [Number, Array, String, Object]
+  },
   components: {
     Multiselect
   },
@@ -61,12 +65,17 @@ export default {
     };
   },
   mounted() {
-    const WellsInjectById =
-      `${BASE_URL}/gerenciamento/ListarPocosInjetores/` + this.idField;
+    if (this.wellInjectFile) {
+      this.value = this.wellInjectFile;
+      // this.$parent.$parent.$data.pocosInjetoresSelecionados = this.wellInjectFile;
+    } else {
+      const WellsInjectById =
+        `${BASE_URL}/gerenciamento/ListarPocosInjetores/` + this.idField;
 
-    api.getWellInjectors(WellsInjectById).then(r => {
-      this.options = r.data;
-    });
+      api.getWellInjectors(WellsInjectById).then(r => {
+        this.options = r.data;
+      });
+    }
   },
   methods: {
     selecionarInput(value, id) {
@@ -76,9 +85,6 @@ export default {
 
     limitText(count) {
       return `mais  ${count} poço(s)`;
-    },
-    asyncFind(query) {
-      this.countries = findService(query);
     },
     addTag(newTag) {
       // return  name for listFiltered

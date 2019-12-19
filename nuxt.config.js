@@ -69,5 +69,8 @@ export default {
         config.devtool = ctx.isClient ? "source-map" : "inline-source-map";
       }
     }
+  },
+  env: {
+    BASE_URL: process.env.BASE_URL
   }
 };

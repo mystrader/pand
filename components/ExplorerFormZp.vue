@@ -257,18 +257,18 @@ export default {
         sistema_deposicional: "Turbidítico",
         formacao: "NAMORADO",
         idade_geologica: "",
-        permeabilidade: "0",
-        porosidade: "0",
-        soterramento: "0",
-        espessura_vertical: "0",
-        lamina_agua: "0",
-        volume_rocha: "0",
-        fluido: "0",
-        api: "0",
-        bo_saturacao: "0",
-        razao_solubilidade: "0",
-        viscosidade_oleo: "0",
-        temperatura: "0",
+        permeabilidade: "",
+        porosidade: "",
+        soterramento: "",
+        espessura_vertical: "",
+        lamina_agua: "",
+        volume_rocha: "",
+        fluido: "",
+        api: "",
+        bo_saturacao: "",
+        razao_solubilidade: "",
+        viscosidade_oleo: "",
+        temperatura: "",
         sigla_zp: []
       },
       lst_litologia: [],
@@ -388,6 +388,7 @@ export default {
         })
         .then(response => {
           this.$NotificationSuccess("Parâmetros Enviados com sucesso");
+          debugger;
           // SEND lists to other components
           let lst_formZpAll = this.form;
           let lst_histogram = response.data[0].histograma;

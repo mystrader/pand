@@ -3,7 +3,7 @@
     <h4 class="mb-4">Tabela</h4>
     <b-alert show variant="warning">
       Escolha as opções abaixo para
-      <strong>recalculo de Parâmetros.</strong>
+      <strong>recálculo de parâmetros.</strong>
     </b-alert>
     <!-- b-alert -->
     <p class="justify-content-end">

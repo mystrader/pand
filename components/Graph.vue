@@ -12,7 +12,6 @@ export default {
   mixins: [mixins.reactiveProp],
   extends: Line,
   props: ["chartData", "options", "vertical"],
-
   async mounted() {
     this.addPlugin(zoom);
 

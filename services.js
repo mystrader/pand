@@ -1,10 +1,8 @@
 import axios from "axios";
 
-// PROD URL
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = process.env.BASE_URL;
 
-// DEV URL
-export const BASE_URL_DEV = "http://localhost:3000";
+console.log("VARIÁVEL DE AMBIENTE", process.env.BASE_URL);
 
 export const api = {
   // Gerenciamento

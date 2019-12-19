@@ -32,69 +32,165 @@
           </h6>
         </div>
         <!-- head-injectors -->
-        <b-form-row class="selected-injectors">
-          <b-col sm="3" v-for="item in lstpocoinject" :key="item.id">
-            <label for="inject">{{item.name}}</label>
-            <b-input id="inject" class="mb-2 mr-sm-2 mb-sm-0" type="number" v-model="item.value"></b-input>
-          </b-col>
-        </b-form-row>
+
+        <div v-if="wellInjectFile">
+          <!-- from file load -->
+          <b-form-row class="selected-injectors">
+            <b-col sm="3" v-for="item in wellInjectFile" :key="item.id">
+              <label for="inject">{{ item.name }}</label>
+              <b-input id="inject" class="mb-2 mr-sm-2 mb-sm-0" type="number" v-model="item.value"></b-input>
+            </b-col>
+          </b-form-row>
+        </div>
+        <div v-else>
+          <!-- normal flow -->
+          <b-form-row class="selected-injectors">
+            <b-col sm="3" v-for="item in lstpocoinject" :key="item.id">
+              <label for="inject">{{ item.name }}</label>
+              <b-input id="inject" class="mb-2 mr-sm-2 mb-sm-0" type="number" v-model="item.value"></b-input>
+            </b-col>
+          </b-form-row>
+        </div>
+
         <!-- selected-injectors -->
       </b-col>
       <!-- col -->
     </b-row>
     <!-- row -->
-    <div class="d-flex justify-content-center mt-3 mb-5">
-      <button
-        class="btn btn-success mr-2"
-        type="button"
+    <div class="d-flex justify-content-center mt-5 mb-4">
+      <b-button
+        lass="btn btn-success"
+        variant="success"
         @click="generate"
         v-on:click="counter += 1"
-      >Gerar Póleo</button>
-      <button class="btn btn-success ml-2" type="button" @click="exportGraph">Exportar Póleo</button>
-
+        class="mr-3"
+      >Gerar Póleo</b-button>
       <download-csv
         :data="wellsExporteds"
         ref="generator"
         style="display: none"
         name="Lista de Poços.csv"
       >Exportar Póleo</download-csv>
+      <b-button variant="success" @click="exportGraph">Exportar Póleo</b-button>
     </div>
     <b-row>
       <b-col sm="12" v-show="isShowing">
-        <button class="btn btn-success" @click="reset('chartLiquidPoil')">Reset Zoom</button>
-        <button class="btn btn-success" @click="print('chartLiquidPoil')">Salvar gráfico</button>
-        <graph
-          ref="chartLiquidPoil"
-          class="mb-4"
-          :lstpocoinject="lstpocoinject"
-          :idwell="idwell"
-          :height="180"
-          :chart-data="liquidPoil"
-          :options="chartOptionsLiquid"
-        />
-        <hr />
-        <button class="btn btn-success" @click="reset('chartOilPoil')">Reset Zoom</button>
-        <button class="btn btn-success" @click="print('chartOilPoil')">Salvar gráfico</button>
-        <graph
-          ref="chartOilPoil"
-          class="mb-4"
-          :lstpocoinject="lstpocoinject"
-          :idwell="idwell"
-          :height="180"
-          :chart-data="oilPoil"
-          :options="chartOptionsOil"
-        />
-        <hr />
-        <button class="btn btn-success" @click="reset('chartWaterPoil')">Reset Zoom</button>
-        <button class="btn btn-success" @click="print('chartWaterPoil')">Salvar gráfico</button>
-        <graph
-          ref="chartWaterPoil"
-          :lstpocoinject="lstpocoinject"
-          :idwell="idwell"
-          :height="180"
-          :chart-data="waterPoil"
-          :options="chartOptionsWater"
-        />
+        <h4>Previsão</h4>
+        <b-tabs content-class="mt-5 mb-5" align="left">
+          <b-tab title="Bruta" active>
+            <template v-slot:title>
+              <i class="material-icons fix-icon-pos-tab">assessment</i>
+              Bruta
+            </template>
+            <!-- GRAPH:  chartLiquidPoil -->
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="reset('chartLiquidPoil')"
+            >Reset Zoom</b-button>
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="print('chartLiquidPoil')"
+            >Salvar gráfico</b-button>
+            <graph
+              ref="chartLiquidPoil"
+              class="mb-4"
+              :lstpocoinject="lstpocoinject"
+              :idwell="idwell"
+              :height="180"
+              :chart-data="liquidPoil"
+              :options="chartOptionsLiquid"
+            />
+          </b-tab>
+
+          <b-tab>
+            <template v-slot:title>
+              <i class="material-icons fix-icon-pos-tab">assessment</i>
+              Óleo
+            </template>
+            <!-- GRAPH:  OIL  -->
+            <b-button variant="outline-success" size="sm" @click="reset('chartOilPoil')">Reset Zoom</b-button>
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="print('chartOilPoil')"
+            >Salvar gráfico</b-button>
+            <graph
+              ref="chartOilPoil"
+              class="mb-4"
+              :lstpocoinject="lstpocoinject"
+              :idwell="idwell"
+              :height="180"
+              :chart-data="oilPoil"
+              :options="chartOptionsOil"
+            />
+            <!-- GRAPH:  OIL  -->
+            <hr class="mt-5 mb-5" />
+            <!-- GRAPH:  WATER  -->
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="reset('chartWaterPoil')"
+            >Reset Zoom</b-button>
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="print('chartWaterPoil')"
+            >Salvar gráfico</b-button>
+            <graph
+              ref="chartWaterPoil"
+              :lstpocoinject="lstpocoinject"
+              :idwell="idwell"
+              :height="180"
+              :chart-data="waterPoil"
+              :options="chartOptionsWater"
+            />
+            <!-- GRAPH:  End.: WATER -->
+          </b-tab>
+
+          <b-tab title="Gás">
+            <template v-slot:title>
+              <i class="material-icons fix-icon-pos-tab">assessment</i>
+              <strong>Gás</strong>
+            </template>
+
+            <!-- GRAPH:  GAS  -->
+            <b-button variant="outline-success" size="sm" @click="reset('chartGasPoil')">Reset Zoom</b-button>
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="print('chartGasPoil')"
+            >Salvar gráfico</b-button>
+            <graph
+              ref="chartGasPoil"
+              :lstpocoinject="lstpocoinject"
+              :idwell="idwell"
+              :height="180"
+              :chart-data="gasPoil"
+              :options="chartOptionsGas"
+            />
+            <!-- GRAPH:  End.: GAS -->
+            <hr class="mt-5 mb-5" />
+            <!-- GRAPH:  RGL  -->
+            <b-button variant="outline-success" size="sm" @click="reset('chartrglPoil')">Reset Zoom</b-button>
+            <b-button
+              variant="outline-success"
+              size="sm"
+              @click="print('chartrglPoil')"
+            >Salvar gráfico</b-button>
+            <graph
+              ref="chartrglPoil"
+              :lstpocoinject="lstpocoinject"
+              :idwell="idwell"
+              :height="180"
+              :chart-data="rglPoil"
+              :options="chartOptionsRGL"
+            />
+            <!-- GRAPH:  End.: RGL -->
+          </b-tab>
+        </b-tabs>
+
         <!-- <pre>{{liquidPoil}}</pre> -->
       </b-col>
       <!-- col -->
@@ -115,7 +211,7 @@ import ChartAnnotationsPlugin from "chartjs-plugin-annotation";
 import Graph from "~/components/Graph.vue";
 
 export default {
-  props: ["lstpocoinject", "idwell"],
+  props: ["lstpocoinject", "idwell", "wellInjectFile"],
   components: {
     Graph,
     Loading
@@ -131,9 +227,13 @@ export default {
       liquidPoil: {},
       oilPoil: {},
       waterPoil: {},
+      gasPoil: {}, // new !
+      rglPoil: {}, // new !
       chartOptionsLiquid: {},
       chartOptionsOil: {},
       chartOptionsWater: {},
+      chartOptionsGas: {}, // new !
+      chartOptionsRGL: {}, // new !
       sigma: 2,
       horizon: 18,
       uncertainty: 10,
@@ -177,16 +277,271 @@ export default {
       const Poleo = axios.create({
         withCredentials: true
       });
-      Poleo.post(`${BASE_URL}/gerenciamento/GerarPoleo`, {
+      Poleo.post(`${BASE_URL}/gerenciamento/ModelARPoilTraining`, {
         well_id: this.idwell,
         injection_value: this.lstpocoinject.map(item => item.value),
         injection_wells: this.lstpocoinject.map(item => item.id),
         n_incerteza: parseInt(this.uncertainty),
         sigma: parseInt(this.sigma),
-        pred_window_size: parseInt(this.horizon)
+        pred_window_size: parseInt(this.horizon),
+        training_id: localStorage.getItem("training_id") + "-" + this.idwell
       })
         .then(response => {
+          this.$NotificationSuccess("Gráficos de Póleo foram gerados.");
           this.namePoil = response.data.name;
+
+          this.chartOptionsGas = {
+            title: {
+              display: true,
+              text: response.data.name
+            },
+            pan: {
+              enabled: true,
+              mode: "x"
+            },
+            zoom: {
+              drag: true,
+              enabled: true,
+              mode: "xy",
+              speed: 0.7
+            },
+            annotation: {
+              events: ["click"],
+              annotations: [
+                {
+                  type: "line",
+                  mode: "vertical",
+                  scaleID: "x-axis-0",
+                  value: response.data.gas_vertical_date_line,
+                  borderColor: "red",
+                  label: {
+                    content: "TODAY",
+                    enabled: false,
+                    position: "top"
+                  }
+                }
+              ]
+            },
+            scales: {
+              yAxes: [
+                {
+                  gridLines: {
+                    display: false
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Vazão (m³/d)"
+                  }
+                }
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false
+                  },
+                  ticks: {
+                    // max: 20
+                    // min: 0,
+                    stepSize: 4.5
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Data"
+                  }
+                }
+              ]
+            }
+          };
+          // End ChartOptionsLiquid
+
+          this.chartOptionsRGL = {
+            title: {
+              display: true,
+              text: response.data.name
+            },
+            pan: {
+              enabled: true,
+              mode: "x"
+            },
+            zoom: {
+              drag: true,
+              enabled: true,
+              mode: "xy",
+              speed: 0.7
+            },
+            annotation: {
+              events: ["click"],
+              annotations: [
+                {
+                  type: "line",
+                  mode: "vertical",
+                  scaleID: "x-axis-0",
+                  value: response.data.gas_vertical_date_line,
+                  borderColor: "red",
+                  label: {
+                    content: "TODAY",
+                    enabled: false,
+                    position: "top"
+                  }
+                }
+              ]
+            },
+            scales: {
+              yAxes: [
+                {
+                  gridLines: {
+                    display: false
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Fração de Gás"
+                  }
+                }
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false
+                  },
+                  ticks: {
+                    // max: 20
+                    // min: 0,
+                    stepSize: 4.5
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Data"
+                  }
+                }
+              ]
+            }
+          };
+          // End chartOptionsWater
+
+          var lstGas_performance = new Array();
+          var lstBigGas = new Array();
+          var lstGasPrediction = new Array();
+          var lst_gas_uncertainties = new Array();
+          var lstWaterUncertainties = new Array();
+
+          lstBigGas = response.data.gas;
+
+          for (const key in response.data.gas_prediction) {
+            const element = Object.assign(
+              {},
+              response.data.gas_prediction[key]
+            );
+            element.value = undefined;
+            lstBigGas.push(element);
+          }
+
+          for (const key in response.data.gas_uncertainties) {
+            const elements =
+              response.data.gas_uncertainties[key].gas_uncertainty;
+
+            for (const k in elements) {
+              const elementUncert = Object.assign({}, elements[k]);
+              lst_gas_uncertainties.push(Object.assign({}, elements[k]));
+
+              elementUncert.value = undefined;
+
+              var podeAdionar = true;
+
+              for (const keyBO in lstBigGas) {
+                var itemGas = lstBigGas[keyBO];
+                if (itemGas.date === elementUncert.date) {
+                  podeAdionar = false;
+                  break;
+                }
+              }
+
+              if (podeAdionar) lstBigGas.push(elementUncert);
+            }
+          }
+
+          for (const key in lstBigGas) {
+            const element = Object.assign({}, lstBigGas[key]);
+            element.value = undefined;
+
+            for (const keyT in response.data.gas_performance) {
+              var elementT = response.data.gas_performance[keyT];
+              if (elementT.date === element.date) {
+                element.value = elementT.value;
+                break;
+              }
+            }
+            lstGas_performance.push(element);
+          }
+
+          for (const key in lstBigGas) {
+            const element = Object.assign({}, lstBigGas[key]);
+            element.value = undefined;
+
+            for (const keyT in response.data.gas_prediction) {
+              var elementT = response.data.gas_prediction[keyT];
+              if (elementT.date === element.date) {
+                element.value = elementT.value;
+                break;
+              }
+            }
+            lstGasPrediction.push(element);
+          }
+
+          poilGraph.gasPoil = {
+            labels: lstBigGas.map(item => item.date),
+            datasets: [
+              {
+                fill: true,
+                label: "Vazão de Gás",
+                backgroundColor: "rgba(66, 184, 131, 0.0)",
+                borderWidth: 2,
+                borderColor: "#ffdb58",
+                pointBackgroundColor: "#ffdb58",
+                data: lstBigGas.map(item => item.value)
+              },
+              {
+                fill: true,
+                label: "Vazão de Gás (Performance)",
+                backgroundColor: "rgba(66, 184, 131, 0.0)",
+                borderWidth: 2,
+                borderColor: "#ffa500",
+                pointBackgroundColor: "#ffa500",
+                data: lstGas_performance.map(item => item.value)
+              },
+              {
+                fill: true,
+                label: "Previsão",
+                backgroundColor: "rgba(66, 184, 131, 0.0)",
+                borderWidth: 2,
+                borderDash: [5, 5],
+                borderColor: "#944cbc",
+                pointBackgroundColor: "#944cbc",
+                data: lstGasPrediction.map(item => item.value)
+              }
+            ]
+          };
+
+          for (
+            let index = 0;
+            index < response.data.gas_uncertainties.length;
+            index++
+          ) {
+            const elements =
+              response.data.gas_uncertainties[index].gas_uncertainty;
+
+            var lst = this.igualarTamanhoLista(lstBigGas, elements);
+
+            poilGraph.gasPoil.datasets.push({
+              fill: true,
+              label: "Incerteza:" + parseInt(index + 1),
+              backgroundColor: "rgba(66, 184, 131, 0.0)",
+              pointStyle: "line",
+              borderWidth: 2,
+              borderColor: "#363636",
+              pointBackgroundColor: "#363636",
+              data: lst.map(item => item.value)
+            });
+          }
 
           this.chartOptionsLiquid = {
             title: {
@@ -198,6 +553,7 @@ export default {
               mode: "x"
             },
             zoom: {
+              drag: true,
               enabled: true,
               mode: "xy",
               speed: 0.7
@@ -341,6 +697,7 @@ export default {
               mode: "x"
             },
             zoom: {
+              drag: true,
               enabled: true,
               mode: "xy",
               speed: 0.7
@@ -513,6 +870,195 @@ export default {
             ]
           };
 
+          this.chartOptionsRGL = {
+            title: {
+              display: true,
+              text: response.data.name
+            },
+            pan: {
+              enabled: true,
+              mode: "x"
+            },
+            zoom: {
+              drag: true,
+              enabled: true,
+              mode: "xy",
+              speed: 0.7
+            },
+            annotation: {
+              events: ["click"],
+              annotations: [
+                {
+                  type: "line",
+                  mode: "vertical",
+                  scaleID: "x-axis-0",
+                  value: response.data.rgl_vertical_date_line,
+                  borderColor: "red",
+                  label: {
+                    content: "TODAY",
+                    enabled: false,
+                    position: "top"
+                  }
+                }
+              ]
+            },
+            scales: {
+              yAxes: [
+                {
+                  gridLines: {
+                    display: false
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "RGL"
+                  }
+                }
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false
+                  },
+                  ticks: {
+                    // max: 20
+                    // min: 0,
+                    stepSize: 4.5
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Data"
+                  }
+                }
+              ]
+            }
+          };
+          // End chartOptionsWater
+
+          var lstRgl_performance = new Array();
+          var lstBigRgl = new Array();
+          var lstRglPrediction = new Array();
+          var lst_rgl_uncertainties = new Array();
+          var lstRglUncertainties = new Array();
+
+          lstBigRgl = response.data.rgl;
+
+          for (const key in response.data.rgl_prediction) {
+            const element = Object.assign(
+              {},
+              response.data.rgl_prediction[key]
+            );
+            element.value = undefined;
+            lstBigRgl.push(element);
+          }
+
+          for (const key in response.data.rgl_uncertainties) {
+            const elements =
+              response.data.rgl_uncertainties[key].rgl_uncertainty;
+
+            for (const k in elements) {
+              const elementUncert = Object.assign({}, elements[k]);
+              lst_rgl_uncertainties.push(Object.assign({}, elements[k]));
+
+              elementUncert.value = undefined;
+
+              var podeAdionar = true;
+
+              for (const keyBO in lstBigRgl) {
+                var itemRgl = lstBigRgl[keyBO];
+                if (itemRgl.date === elementUncert.date) {
+                  podeAdionar = false;
+                  break;
+                }
+              }
+
+              if (podeAdionar) lstBigRgl.push(elementUncert);
+            }
+          }
+
+          for (const key in lstBigRgl) {
+            const element = Object.assign({}, lstBigRgl[key]);
+            element.value = undefined;
+
+            for (const keyT in response.data.rgl_performance) {
+              var elementT = response.data.rgl_performance[keyT];
+              if (elementT.date === element.date) {
+                element.value = elementT.value;
+                break;
+              }
+            }
+            lstRgl_performance.push(element);
+          }
+
+          for (const key in lstBigRgl) {
+            const element = Object.assign({}, lstBigRgl[key]);
+            element.value = undefined;
+
+            for (const keyT in response.data.rgl_prediction) {
+              var elementT = response.data.rgl_prediction[keyT];
+              if (elementT.date === element.date) {
+                element.value = elementT.value;
+                break;
+              }
+            }
+            lstRglPrediction.push(element);
+          }
+
+          poilGraph.rglPoil = {
+            labels: lstBigRgl.map(item => item.date),
+            datasets: [
+              {
+                fill: true,
+                label: "RGL",
+                backgroundColor: "rgba(66, 184, 131, 0.0)",
+                borderWidth: 2,
+                borderColor: "#ffdb58",
+                pointBackgroundColor: "#ffdb58",
+                data: lstBigRgl.map(item => item.value)
+              },
+              {
+                fill: true,
+                label: "RGL (Performance)",
+                backgroundColor: "rgba(66, 184, 131, 0.0)",
+                borderWidth: 2,
+                borderColor: "#ffa500",
+                pointBackgroundColor: "#ffa500",
+                data: lstRgl_performance.map(item => item.value)
+              },
+              {
+                fill: true,
+                label: "Previsão",
+                backgroundColor: "rgba(66, 184, 131, 0.0)",
+                borderWidth: 2,
+                borderDash: [5, 5],
+                borderColor: "#944cbc",
+                pointBackgroundColor: "#944cbc",
+                data: lstRglPrediction.map(item => item.value)
+              }
+            ]
+          };
+
+          for (
+            let index = 0;
+            index < response.data.rgl_uncertainties.length;
+            index++
+          ) {
+            const elements =
+              response.data.rgl_uncertainties[index].rgl_uncertainty;
+
+            var lst = this.igualarTamanhoLista(lstBigRgl, elements);
+
+            poilGraph.rglPoil.datasets.push({
+              fill: true,
+              label: "Incerteza:" + parseInt(index + 1),
+              backgroundColor: "rgba(66, 184, 131, 0.0)",
+              pointStyle: "line",
+              borderWidth: 2,
+              borderColor: "#363636",
+              pointBackgroundColor: "#363636",
+              data: lst.map(item => item.value)
+            });
+          }
+
           for (
             let index = 0;
             index < response.data.oil_uncertainties.length;
@@ -525,7 +1071,7 @@ export default {
 
             poilGraph.oilPoil.datasets.push({
               fill: true,
-              label: "Incerteza:" + index,
+              label: "Incerteza:" + parseInt(index + 1),
               backgroundColor: "rgba(66, 184, 131, 0.0)",
               pointStyle: "line",
               borderWidth: 2,
@@ -547,6 +1093,7 @@ export default {
               mode: "x"
             },
             zoom: {
+              drag: true,
               enabled: true,
               mode: "xy",
               speed: 0.7
@@ -576,7 +1123,7 @@ export default {
                   },
                   scaleLabel: {
                     display: true,
-                    labelString: "Fração de água"
+                    labelString: "BSW"
                   }
                 }
               ],
@@ -674,7 +1221,7 @@ export default {
             datasets: [
               {
                 fill: true,
-                label: "Fração de Água",
+                label: "BSW",
                 backgroundColor: "rgba(66, 184, 131, 0.0)",
                 borderWidth: 2,
                 borderColor: "#ffdb58",
@@ -683,7 +1230,7 @@ export default {
               },
               {
                 fill: true,
-                label: "Fração de Água (Performance)",
+                label: "BSW (Performance)",
                 backgroundColor: "rgba(66, 184, 131, 0.0)",
                 borderWidth: 2,
                 borderColor: "#ffa500",
@@ -715,7 +1262,7 @@ export default {
 
             poilGraph.waterPoil.datasets.push({
               fill: true,
-              label: "Incerteza:" + index,
+              label: "Incerteza:" + parseInt(index + 1),
               backgroundColor: "rgba(66, 184, 131, 0.0)",
               pointStyle: "line",
               borderWidth: 2,
@@ -734,15 +1281,20 @@ export default {
     },
     async exportGraph() {
       let exportWellId = new Array();
+      let exportTrainingId = new Array();
 
       exportWellId.push(this.idwell);
+      exportTrainingId.push(
+        localStorage.getItem("training_id") + "-" + this.idwell
+      );
 
       const exportPoil = axios.create({
         withCredentials: true
       });
       await exportPoil
-        .post(`${BASE_URL}/gerenciamento/ExportarPoleo`, {
-          well_ids: exportWellId
+        .post(`${BASE_URL}/gerenciamento/ModelARExport`, {
+          well_ids: exportWellId,
+          training_ids: exportTrainingId
         })
         .then(response => {
           this.wellsExporteds = response.data;

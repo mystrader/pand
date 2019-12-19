@@ -6,6 +6,13 @@
       <strong>recalculo de Parâmetros.</strong>
     </b-alert>
     <div class="d-flex justify-content-start mt-2 mb-2">
+      <b-button class="mr-3" @click="reset" variant="outline-success" size="sm">Reset Zoom</b-button>
+      <b-button
+        class="mr-3 btn-sm"
+        @click="print"
+        variant="outline-success"
+        size="sm"
+      >Salvar gráfico</b-button>
       <b-button class="btn-sm" variant="success" @click="onRecalculate__Param">Recalcular Parâmetros</b-button>
       <b-button
         class="ml-3 btn-sm"
@@ -13,7 +20,13 @@
         @click="onRecalculate__CurveLine"
       >Gerar Curva Tipo</b-button>
     </div>
-    <graph :height="430" :chart-data="rendergraph_curvetype" :options="chartOptions" class="mt-3" />
+    <graph
+      ref="chartCurve"
+      :height="430"
+      :chart-data="rendergraph_curvetype"
+      :options="chartOptions"
+      class="mt-3"
+    />
   </div>
 </template>
 
@@ -44,6 +57,18 @@ export default {
     };
   },
   methods: {
+    getChartVisible() {
+      var refChart = "chartCurve";
+      return refChart;
+    },
+    reset() {
+      this.$resetGraph(this.getChartVisible());
+    },
+
+    print() {
+      this.$print(this.getChartVisible());
+    },
+
     mountDataSet(api_result_full, newCurveLine) {
       let _datasets = new Array();
       let _labels = new Array();
@@ -128,12 +153,13 @@ export default {
         },
         pan: {
           enabled: true,
-          mode: "xy"
+          mode: "x"
         },
-
         zoom: {
+          drag: true,
           enabled: true,
-          mode: "xy"
+          mode: "xy",
+          speed: 0.7
         },
 
         scales: {

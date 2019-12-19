@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import main from "../plugins/main";
+
 export default {
   layout: "home",
 
