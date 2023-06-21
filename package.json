@@ -22,7 +22,7 @@
     "dotenv": "^8.1.0",
     "env-cmd": "^10.0.1",
     "file-saver": "^2.0.2",
-    "nuxt": "^2.0.0",
+    "nuxt": "^3.4.3",
     "vue-chartjs": "^3.4.2",
     "vue-full-loading": "^1.2.1",
     "vue-json-csv": "^1.2.8",
